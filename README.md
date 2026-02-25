@@ -53,4 +53,13 @@ El sistema está orquestado mediante **Docker Compose**, lo que permite la comun
 * **Entrar a la base de datos desde la terminal:** `docker compose exec db psql -U postgres`
 
 ---
-*Nota: Este proyecto se encuentra actualmente en la Fase 4 (Implementación de Lógica de Negocio).*
+🗂️ Modelo de Persistencia (Reporte)
+Para gestionar el ciclo de vida de los documentos, se ha definido una entidad Reporte con los siguientes atributos técnicos:
+
+Usuario (ForeignKey): Vinculación relacional con el modelo de autenticación nativo de Django para trazabilidad de autoría.
+
+Estado (CharField): Máquina de estados (PENDIENTE, PROCESANDO, COMPLETADO, ERROR) que sincroniza la vista del usuario con el progreso del Worker.
+
+Archivo (FileField): Puntero de ruta hacia el volumen persistente de Docker donde se aloja el binario generado.
+
+Fecha de Creación (DateTimeField): Marca de tiempo automática para auditoría y control de rendimiento.
