@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Servicio: Base Datos
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  # Servicio broker (redis)
+  broker:
+    image: redis:7-alpine
+
+  # Servicio aplicación Web (django)
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - broker
+
+  # Servicio el worker (celery)
+  worker:
+    build: .
+    command: celery -A CONFIG_GENERAL.celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - broker
+
+volumes:
+  postgres_data:

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+.env
+#Porque no queremos subir a la nube archivos temporales de Python ni los archivos pesados que generará el Worker. Solo queremos el código "puro".
