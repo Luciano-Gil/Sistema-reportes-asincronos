@@ -63,3 +63,9 @@ Estado (CharField): Máquina de estados (PENDIENTE, PROCESANDO, COMPLETADO, ERRO
 Archivo (FileField): Puntero de ruta hacia el volumen persistente de Docker donde se aloja el binario generado.
 
 Fecha de Creación (DateTimeField): Marca de tiempo automática para auditoría y control de rendimiento.
+
+#Visibilidad: Quien lea tu GitHub sabrá inmediatamente qué datos estás recolectando sin tener que abrir el código.
+
+#Justificación Técnica: En tu informe, puedes decir que el README documenta no solo la infraestructura (Docker), sino también la estructura lógica (Modelos).
+
+#Mantenimiento: Si en el futuro agregas un campo (como "tipo de reporte"), ya tienes el lugar donde documentarlo.

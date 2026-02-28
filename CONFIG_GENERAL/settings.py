@@ -134,3 +134,10 @@ CELERY_RESULTS_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# donde va el usuario después de poner bien su contraseña
+LOGIN_REDIRECT_URL = 'dashboard'  
+# dónde va el usuario cuando cierra sesión
+LOGOUT_REDIRECT_URL = 'login'
+# donde rebota el sistema a alguien que intenta entrar a una URL protegida sin permiso
+LOGIN_URL = 'login'
