@@ -37,4 +37,5 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
 
     #Indica cuál es el archivo HTML que debe dibujar este formulario en la pantalla del navegador.
-    template_name = 'signup.html'
+    template_name = '' \
+    'signup.html'
