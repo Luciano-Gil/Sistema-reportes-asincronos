@@ -13,4 +13,12 @@ urlpatterns = [
     path('signup/', views.SignUpView.as_view(), name='signup'),
 
     path('dashboard/', views.dashboard, name='dashboard'),
+
+
+    #contraseñas
+    path('usuarios/cambiar_contraseña/', views.cambiar_contrasena, name='cambiar_contrasena'),
+    path('usuarios/recuperar_contraseña/', views.recuperar_contrasena, name='recuperar_contrasena'),
+    #correo
+
+
 ]

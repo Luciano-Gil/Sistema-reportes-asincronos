@@ -29,3 +29,17 @@ class Reporte(models.Model):
     def __str__(self):
         return f"{self.nombre_reporte} - {self.estado}"
 
+
+class UserProfile(models.Model):
+    # el 'related_name' define como se eaccede desde el ususario: usuario.profile
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile' 
+    )
+    
+  
+    primer_ingreso = models.BooleanField(default=True) 
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Recuperar Contraseña{% endblock %}
+{% block header %}Recuperar Contraseña{% endblock %}
+
+{% block content %}
+<body style=" background-image: url(../../../static/imagenes/fondo-login.jpg); background-repeat: no-repeat; background-size: cover;">
+    
+</body>
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;  background-color: rgba(240, 248, 255, 0.900); ">
+        
+        <h2 class="text-center mb-4">Recuperar Contraseña</h2>
+        
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {# formulario q solicita el maail #}
+        <form method="post" action="{% url 'recuperar_contrasena' %}">
+            {% csrf_token %}
+            
+            <p class="text-muted text-center large">Ingresa tu correo electronico y te enviaremos una clave temporal</p>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electronico:</label>
+                <input class="form-control" type="email" id="email" name="email" required placeholder="tu_correo@ejemplo.com">
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Enviar Contraseña </button>
+        </form>
+        
+        <div class="text-center mt-3">
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary">Volver </a>
+        </div>
+        
+    </div>
+</div>
+{% endblock content %}

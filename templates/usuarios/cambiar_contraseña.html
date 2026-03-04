@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Cambiar Contraseña{% endblock %}
+{% block header %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 500px;">
+        <h3 class="card-title text-center mb-4">
+            {% if request.user.primer_ingreso %}
+                Cambio de Contraseña Obligatorio
+            {% else %}
+                Cambiar Contraseña
+            {% endif %}
+        </h3>
+        
+        <form method="post" class="form-base">
+            {% csrf_token %}
+            
+            {# renderizado manuan de los campo ya q usar.as_p puede producir errores, xq trata todos los resultados con un objeto p #}
+            {# form.visible_fields itera solo sobre los 3 campos visibles  #}
+            {% for field in form.visible_fields %}
+                <div class="mb-3">
+                    
+                    {# muestra la etiqueta del campo:contraseña antigua, o contraseña nueva,  o confirmacion #}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    
+                    {# renderiza el campo input #}
+                    {{ field }}
+                    
+                    {# muestra errores no asociados al campo #}
+                    {% if field.help_text %}
+                        <div class="form-text text-muted small">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    
+                    {# muestra errores de validacion (ej: no coinciden) #}
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {# muestra errores globales (no asociados a un campo especcifico) #}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>
+            {% endif %}
+            
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Actualizar contraseña</button>
+                
+                {% if not request.user.primer_ingreso %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Volver</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

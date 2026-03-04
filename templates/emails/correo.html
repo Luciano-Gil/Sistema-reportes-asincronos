@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recuperacion de Contraseña</title>
+</head>
+<body>
+    <div style="font-family: sans-serif; line-height: 1.6;">
+        <h2 >Restablecimiento de contraseña - Reportes</h2>
+        <p>Hola {{ usuario_nombre }},</p>
+        
+        <p>Usted solicito reestablecer su contraseña</p>
+        
+        <p style="font-size: 1.1em; font-weight: bold;">Tu Contraseña Temporal es:</p>
+        <p padding: 10px; border-radius: 5px; display: inline-block;">
+            <strong>{{ nueva_pass }}</strong>
+        </p>
+
+        
+        <strong>IMPORTANTE:</strong> Esta es una clave temporal. E sistema te obligara a cambiarla cuando inicie sesion
+        
+
+        <p>Gracias,<br>El equipo de soporte de Reportes</p>
+    </div>
+</body>
+</html>
