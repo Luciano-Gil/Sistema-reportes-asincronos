@@ -28,7 +28,7 @@ from django.contrib import messages  # Para mostrar los carteles de "Contraseña
 # --- Gestión de Usuarios y Seguridad ---
 from django.contrib.auth.models import User  # El modelo que representa a los empleados en PostgreSQL
 from django.contrib.auth.forms import PasswordChangeForm  # El formulario oficial de Django para validar claves nuevas
-from django.contrib.auth import update_session_auth_hash  # Evita que el sistema te saque (logout) al cambiar la clave
+from django.contrib.auth import update_session_auth_hash,logout  # Evita que el sistema te saque (logout) al cambiar la clave
 
 # --- Infraestructura de Correo Electrónico ---
 from django.core.mail import EmailMultiAlternatives  # Permite enviar correos que tengan texto y diseño HTML a la vez
@@ -85,7 +85,15 @@ class SignUpView(generic.CreateView):
     form_class = RegistroEmpleadoForm 
 
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'    
+    template_name = 'signup.html'
+
+def logoutView(request):
+    """ funcion que finaliza la sesiun del usuario autenticado actualmente, usa la funcion
+        logout() de django para limpiar los datos de la sesion. 
+        el request contiene la sesion actual del usuario.retorna: redirige a home
+    """
+    logout(request)
+    return redirect('home')  # redirige a home despues de cerrar sesion        
 
 
 ############################################################################################################

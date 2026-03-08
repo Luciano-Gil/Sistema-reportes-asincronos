@@ -1,11 +1,91 @@
 {% extends 'base.html' %}
-{%  block content %}
-<div class="container m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 t-5">
-    <div class="alert alert-success">
-        <h2>¡Bienvenido {{ user.username }}!</h2>
-        <p>Has iniciado sesión correctamente en el Sistema de Gestión de Reportes.</p>
-    </div>
+{% block content %}
+<div class="row">
+    <nav class="col-md-3 col-lg-2 bg-light shadow-sm py-4" style="min-height: 100vh;">
+        <h6 class="px-3 text-muted text-uppercase small fw-bold">Menú</h6>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house-door me-2"></i> Inicio</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#"><i class="bi bi-file-earmark-bar-graph me-2"></i> Mis Reportes</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#"><i class="bi bi-plus-circle me-2"></i> Generar Reporte</a></li>
+        </ul>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        
+        <div class="row g-3 mb-5">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h6 class="text-uppercase opacity-75 small">Total Reportes</h6>
+                        <h2 class="display-5 fw-bold mb-0">ej:128</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-dark border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h6 class="text-uppercase opacity-75 small">Pendientes </h6>
+                        <h2 class="display-5 fw-bold mb-0">5</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h6 class="text-uppercase opacity-75 small">Listos</h6>
+                        <h2 class="display-5 fw-bold mb-0">25</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="mb-0 fw-bold">Historial de mis Reportes</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Nombre</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th class="text-end pe-4">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4 fw-medium">Reporte de Ventas Enero</td>
+                            <td> ej:08/03/2026</td>
+                            <td><span class="badge rounded-pill bg-success px-3">Finalizado</span></td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-primary shadow-sm"><i class="bi bi-download"></i> Descargar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row g-4 border-top pt-5">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center py-5">
+                        <div class="display-1 text-success mb-3"><i class="bi bi-database-check"></i></div>
+                        <h4 class="fw-bold">ej:25</h4>
+                        <p class="text-muted text-uppercase small mb-0">Archivos en el Servidor</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card border-0 shadow-sm h-100 bg-light d-flex align-items-center justify-content-center border-dashed">
+                    <div class="text-center p-5">
+                        <i class="bi bi-bar-chart-line display-4 text-muted mb-3"></i>
+                        <p class="text-muted italic mb-0">(imagenes de metricas) </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
-
-
-{%  endblock content %}
+{% endblock %}

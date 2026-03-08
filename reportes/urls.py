@@ -8,7 +8,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     
     # Ruta de Logout(para cerrar la sesión de forma segura)
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', views.logoutView, name='logout'),
    
     path('signup/', views.SignUpView.as_view(), name='signup'),
 

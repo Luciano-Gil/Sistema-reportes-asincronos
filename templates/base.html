@@ -19,9 +19,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'login' %}">
+   
+    <div class="navbar-brand">
       <i class="bi bi- joys-stick"></i> Gestor de Tareas
-    </a>
+    </div>
     
     <div class="d-flex">
       {% if user.is_authenticated %}
