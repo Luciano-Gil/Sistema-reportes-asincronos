@@ -39,6 +39,9 @@ from django.conf import settings  # Para leer tu correo oficial (DEFAULT_FROM_EM
 from django.db import transaction  # El "seguro" que cancela el cambio de clave si el mail no llega a enviarse
 from django.urls import reverse
 
+#----importacion del modelo reporte 
+from .models import Reporte
+
 #decorador
 def forzar_cambio(vista):
     def capa_seguridad(request, *args, **kwargs):
@@ -53,11 +56,17 @@ def forzar_cambio(vista):
     
     return capa_seguridad
 
+########daschboard####
 @login_required
 @forzar_cambio
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    total = Reporte.objects.filter(usuario=request.user).count()
+    pendientes = Reporte.objects.filter(usuario=request.user, estado='Procesando').count()
+    listos = Reporte.objects.filter(usuario=request.user, estado='Finalizado').count()
+    return render(request, 'dashboard.html', {'total': total, 'pendientes': pendientes, 'listos': listos})
 
+
+###home
 def home(request):
 
     return render(request, 'home.html')
