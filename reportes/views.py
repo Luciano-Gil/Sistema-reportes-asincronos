@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 # para crear un usuario (Nombre de usuario y contraseña doble) y maneja la seguridad 
 # de las claves en la base de datos PostgreSQL.
 from django.contrib.auth.forms import UserCreationForm
+from .form import RegistroEmpleadoForm  # Importa tu nuevo formulario
 
 #Es una función que "espera" a que las URLs estén cargadas antes de redirigir. Se 
 # usa en clases porque, al momento de leer el código, Django aún no conoce todas las rutas, y 
@@ -18,7 +19,7 @@ from django.views import generic
 
 # --- Herramientas Estándar de Python ---
 import random  # Para elegir caracteres al azar en la clave temporal
-import string  # Provee los listados de letras y números (ascii_letters, digits)
+from string import ascii_letters,digits  # Provee los listados de letras y números (ascii_letters, digits)
 
 # --- Atajos y Mensajería de Django ---
 from django.shortcuts import render, redirect  # Para dibujar el HTML y saltar entre páginas (login, dashboard)
@@ -36,8 +37,24 @@ from django.conf import settings  # Para leer tu correo oficial (DEFAULT_FROM_EM
 
 # --- Base de Datos y Transacciones ---
 from django.db import transaction  # El "seguro" que cancela el cambio de clave si el mail no llega a enviarse
+from django.urls import reverse
 
-@login_required # decorador que protege la vista,  si no se esta  logueado, manda al login
+#decorador
+def forzar_cambio(vista):
+    def capa_seguridad(request, *args, **kwargs):
+        # ... tu lógica de validación ...
+        profile = getattr(request.user, "profile", None)
+        if request.user.is_authenticated and profile and profile.primer_ingreso:
+            if request.path != reverse('cambiar_contrasena'):
+                return redirect('cambiar_contrasena')
+
+        # CAMBIO CRÍTICO: Agrega los paréntesis para EJECUTAR la vista
+        return vista(request, *args, **kwargs) 
+    
+    return capa_seguridad
+
+@login_required
+@forzar_cambio
 def dashboard(request):
     return render(request, 'dashboard.html')
 
@@ -45,7 +62,7 @@ def home(request):
 
     return render(request, 'home.html')
 
-class SignUpView(generic.CreateView):
+#class SignUpView(generic.CreateView):
     """Esta clase hereda de generic.CreateView, lo que significa que ya hereda
       automáticamente toda la lógica para recibir datos de un formulario y guardarlos en la base de datos.
     """
@@ -60,20 +77,29 @@ class SignUpView(generic.CreateView):
     #Indica cuál es el archivo HTML que debe dibujar este formulario en la pantalla del navegador.
     template_name = '' \
     'signup.html'
+class SignUpView(generic.CreateView):
+    """Esta clase ahora usa el formulario personalizado para incluir el email
+    y crear automáticamente el UserProfile con la bandera de primer ingreso.
+    """
+    # CAMBIO CRÍTICO: Reemplaza UserCreationForm por RegistroEmpleadoForm
+    form_class = RegistroEmpleadoForm 
+
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'    
 
 
 ############################################################################################################
 # Cambio-contraseña, recuperar contraseña, mail
 
 
-def generar_contraseña_temporal(longitud=8):
+def generar_contrasena_temporal(longitud=8):
     """funcion que genera  contraseña alfanumerica """
     caracteres = ascii_letters + digits
     nueva_pass = "".join(random.choice(caracteres) for i in range(longitud))
     return nueva_pass
 
 
-def cambiar_contraseña(request):
+def cambiar_contrasena(request):
     
     if not request.user.is_authenticated:
         return redirect('login')
@@ -104,10 +130,10 @@ def cambiar_contraseña(request):
         form = PasswordChangeForm(request.user)
 
     contexto = {'form': form, 'titulo': 'Cambiar Contraseña'}
-    return render(request, 'usuario/cambiar_contraseña.html', contexto)
+    return render(request, 'usuarios/cambiar_contrasena.html', contexto)
 
 
-def recuperar_contraseña(request):
+def recuperar_contrasena(request):
     """ funcion que gestiona la solicitude de recuperacion , genera una clave
     activando el userprofile y manda el mail
     
@@ -120,7 +146,7 @@ def recuperar_contraseña(request):
             
             with transaction.atomic():
                 #genera la contraseña y actualiza
-                nueva_pass = generar_contraseña_temporal(longitud=8)
+                nueva_pass = generar_contrasena_temporal(longitud=8)
                 usuario.set_password(nueva_pass) 
                 usuario.save() 
                 
@@ -153,5 +179,5 @@ def recuperar_contraseña(request):
         
         return redirect('login') 
 
-    return render(request, 'usuario/recuperar_contraseña.html')
+    return render(request, 'usuarios/recuperar_contrasena.html')
 

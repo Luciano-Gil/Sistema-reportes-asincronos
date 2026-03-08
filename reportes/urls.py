@@ -16,8 +16,8 @@ urlpatterns = [
 
 
     #contraseñas
-    path('usuarios/cambiar_contraseña/', views.cambiar_contrasena, name='cambiar_contrasena'),
-    path('usuarios/recuperar_contraseña/', views.recuperar_contrasena, name='recuperar_contrasena'),
+    path('usuarios/cambiar_contrasena/', views.cambiar_contrasena, name='cambiar_contrasena'),
+    path('usuarios/recuperar_contrasena/', views.recuperar_contrasena, name='recuperar_contrasena'),
     #correo
 
 

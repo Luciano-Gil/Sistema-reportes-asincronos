@@ -29,3 +29,8 @@ class RegistroEmpleadoForm(UserCreationForm):
             UserProfile.objects.get_or_create(user=user, primer_ingreso=True)
             
         return user
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este correo ya está registrado en el sistema.")
+        return email
